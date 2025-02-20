@@ -7,7 +7,7 @@
             <li><a href="#" class="text-white hover:underline">Contact</a></li>
         </ul>
         <button class="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-200">
-            <a href="#" class="text-blue-600">Login</a>
+            <a href="{{ route('login') }}" class="text-blue-600">Login</a>
         </button>
     </div>
 </nav>
