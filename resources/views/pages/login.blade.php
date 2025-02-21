@@ -5,7 +5,8 @@
 @section('content')
     <div class="flex flex-col md:flex-row min-h-screen w-full">
         <!-- Bagian Kanan: Gambar (Sembunyi di Mobile) -->
-        <div class="hidden md:block md:w-1/2 bg-cover bg-center" style="background-image: url('/assets/images/bg_login.jpg');">
+        <div class="hidden md:block md:w-1/2 bg-cover bg-center"
+            style="background-image: url('/assets/images/bg_login.jpg');">
         </div>
 
         <!-- Bagian Kiri: Form Login -->
@@ -28,31 +29,20 @@
                     @csrf
                     <!-- Username Input -->
                     <div>
-                        <input
-                            type="text"
-                            name="email"
-                            value="{{ old('email') }}" {{-- Untuk mengisi ulang input email --}}
+                        <input type="text" name="email" value="{{ old('email') }}" {{-- Untuk mengisi ulang input email --}}
                             class="w-full p-3 border border-gray-300 rounded-lg bg-grey-200 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            placeholder="Email"
-                            required
-                        />
+                            placeholder="Email" required />
                     </div>
                     <!-- Password Input -->
                     <div>
-                        <input
-                            type="password"
-                            name="password"
+                        <input type="password" name="password"
                             class="w-full p-3 border border-gray-300 rounded-lg bg-grey-200 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            placeholder="Password"
-                            required
-                        />
+                            placeholder="Password" required />
                     </div>
                     <!-- Login Button -->
                     <div>
-                        <button
-                            type="submit"
-                            class="w-full p-3 bg-gradient-to-r from-blue-400 to-blue-700 text-white font-bold rounded-lg hover:opacity-90"
-                        >
+                        <button type="submit"
+                            class="w-full p-3 bg-gradient-to-r from-blue-400 to-blue-700 text-white font-bold rounded-lg hover:opacity-90">
                             Login
                         </button>
                     </div>
