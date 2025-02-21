@@ -2,7 +2,7 @@
     <!-- Sidebar -->
     <div class="w-64 bg-white shadow-md h-screen p-5">
         <div class="flex items-center space-x-3">
-            <img src="{{ asset('assets/images/logo_smk.png') }}" alt="Logo" class="w-10 h-10">
+            <img src="{{ asset('assets/images/logo_smk.svg') }}" alt="Logo" class="w-10 h-10">
             <h2 class="text-xl font-semibold text-black-600 font-poppins">Smart School SMKN 4 Jember</h2>
         </div>
         <ul class="mt-5">
