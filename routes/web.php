@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\SiswaController;
@@ -28,4 +29,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function(){
     Route::get('/jurusan', [JurusanController::class, 'index'])->name('admin.jurusan');
     Route::get('/presensi/siswa', [PresensiController::class, 'indexSiswa'])->name('admin.presensi.siswa');
     Route::get('/presensi/guru', [PresensiController::class, 'indexGuru'])->name('admin.presensi.guru');
+    Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
+    Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
 });
