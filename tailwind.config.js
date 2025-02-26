@@ -16,6 +16,7 @@ export default {
                 petrona: ['Petrona', 'serif'],
                 montserrat: ['Montserrat', 'sans-serif'],
                 elmessiri: ['ElMessiri', 'serif'],
+                cavilant: ['Cavilant', 'serif'],
             },
         },
     },

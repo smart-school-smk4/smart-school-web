@@ -4,18 +4,26 @@
 
 @section('content')
     <div class="flex flex-col md:flex-row min-h-screen w-full">
-        <!-- Bagian Kanan: Gambar (Sembunyi di Mobile) -->
+        <!-- Bagian Kiri: Gambar (Sembunyi di Mobile) -->
         <div class="hidden md:block md:w-1/2 bg-cover bg-center"
-            style="background-image: url('/assets/images/bg_login.jpg');">
+            style="background-image: url('/assets/images/bg_login.svg');">
         </div>
 
-        <!-- Bagian Kiri: Form Login -->
+        <!-- Bagian Kanan: Form Login -->
         <div class="w-full md:w-1/2 flex items-center justify-center h-screen md:h-auto px-5 bg-white">
-            <div class="w-full max-w-md">
-                <h2 class="text-3xl font-bold text-center mb-4 font-elmessiri">LOGIN ADMIN</h2>
-                <p class="text-center text-gray-600 mb-6">
-                    Untuk masuk ke halaman admin silahkan login terlebih dahulu
-                </p>
+            <div class="w-full max-w-md text-center">
+                <!-- Logo dan Nama Aplikasi -->
+                <div class="mb-6 flex items-center justify-center space-x-3">
+                    <img src="/assets/images/logo_smk.svg" alt="Logo Smart School" class="w-16 h-16">
+                    <div class="text-left">
+                        <h2 class="text-lg font-bold text-blue-800">SMART SCHOOL</h2>
+                        <p class="text-sm text-gray-500">SMKN 04 JEMBER</p>
+                    </div>
+                </div>
+                
+                <!-- Salam Pembuka -->
+                <h2 class="text-2xl font-bold text-blue-900 mb-2">Hai, selamat datang kembali</h2>
+                <p class="text-gray-500 mb-6">Login untuk membuka <span class="text-blue-500">dashboard</span></p>
 
                 <!-- Notifikasi Error -->
                 @if ($errors->any())
@@ -28,28 +36,31 @@
                 <form action="{{ route('login') }}" method="POST" class="space-y-4">
                     @csrf
                     <!-- Username Input -->
-                    <div>
-                        <input type="text" name="email" value="{{ old('email') }}" {{-- Untuk mengisi ulang input email --}}
-                            class="w-full p-3 border border-gray-300 rounded-lg bg-grey-200 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    <div class="text-left">
+                        <label for="email" class="text-sm font-semibold text-gray-700">Email</label>
+                        <input type="text" name="email" value="{{ old('email') }}"
+                            class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Email" required />
                     </div>
                     <!-- Password Input -->
-                    <div>
+                    <div class="text-left">
+                        <label for="password" class="text-sm font-semibold text-gray-700">Password</label>
                         <input type="password" name="password"
-                            class="w-full p-3 border border-gray-300 rounded-lg bg-grey-200 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             placeholder="Password" required />
                     </div>
                     <!-- Login Button -->
                     <div>
                         <button type="submit"
-                            class="w-full p-3 bg-gradient-to-r from-blue-400 to-blue-700 text-white font-bold rounded-lg hover:opacity-90">
-                            Login
+                            class="w-full p-3 bg-blue-800 text-white font-bold rounded-lg hover:opacity-90">
+                            Masuk
                         </button>
                     </div>
                 </form>
+
+                <!-- Lupa Password -->
+                <p class="text-sm text-gray-600 mt-4">Lupa password? <a href="#" class="text-blue-600 font-semibold">Klik disini</a></p>
             </div>
         </div>
-
     </div>
-
 @endsection
