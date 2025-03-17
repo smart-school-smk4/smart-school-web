@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\cobaController;
 use App\Http\Controllers\GuruController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
@@ -8,8 +9,11 @@ use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\pengumumanController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\SiswaController;
+use Faker\Guesser\Name;
+use Illuminate\Database\Query\IndexHint;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('login' ,[LoginController::class, 'index'])->name('login');
@@ -32,4 +36,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function(){
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
     Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
+    Route::get('/bel', [cobaController::class, 'index'])->name('admin.bel.bel');
+    Route::get('/pengumuman', [pengumumanController::class, 'index'])->name('admin.bel.pengumuman');
 });
