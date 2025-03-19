@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\cobaController;
+use App\Http\Controllers\belController;
 use App\Http\Controllers\GuruController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
@@ -14,6 +14,7 @@ use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\SiswaController;
 use Faker\Guesser\Name;
 use Illuminate\Database\Query\IndexHint;
+
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('login' ,[LoginController::class, 'index'])->name('login');
@@ -36,6 +37,16 @@ Route::prefix('admin')->middleware(['auth'])->group(function(){
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
     Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
-    Route::get('/bel', [cobaController::class, 'index'])->name('admin.bel.bel');
+    
+    Route::get('/bel', [BelController::class, 'index'])->name('admin.bel');
+    Route::get('/bel/create', [BelController::class, 'create'])->name('bel.create');
+    Route::post('/bel', [BelController::class, 'store'])->name('bel.store');
+    Route::get('/bel/{id}', [BelController::class, 'show'])->name('bel.show');
+    Route::get('/bel/{id}/edit', [BelController::class, 'edit'])->name('bel.edit');
+    Route::put('/bel/{id}', [BelController::class, 'update'])->name('bel.update');
+    Route::delete('/bel/{id}', [BelController::class, 'destroy'])->name('bel.destroy');
+
     Route::get('/pengumuman', [pengumumanController::class, 'index'])->name('admin.bel.pengumuman');
 });
+
+Route::get('/jadwal-bel', [BelController::class, 'getSchedule']);
