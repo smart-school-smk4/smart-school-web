@@ -2,40 +2,53 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class JadwalBel extends Model
 {
-    use HasFactory, SoftDeletes;
-
-    protected $table = 'jadwal_bels'; // Pastikan sesuai dengan database
-
     protected $fillable = [
-        'hari',      // Nama hari (Senin, Selasa, Rabu, dll.)
-        'jam',       // Jam bel berbunyi
-        'menit',     // Menit bel berbunyi
-        'file_number' // Nomor file MP3 (misal: "0001", "0002")
+        'hari',
+        'waktu',
+        'file_number',
+        'is_active',
     ];
-
-    protected $dates = ['deleted_at']; // Untuk SoftDeletes
 
     protected $casts = [
-        'jam' => 'integer',
-        'menit' => 'integer',
-        'file_number' => 'string', // Ubah ke string jika format MP3 "0001", "0002"
+        'is_active' => 'boolean',
     ];
 
-    // Mutator untuk memastikan nama hari selalu format Title Case (Senin, Selasa, dll.)
-    public function setHariAttribute($value)
+    // Ini dia! Tambahin di sini
+    protected $appends = ['formatted_time'];
+
+    const DAYS = [
+        'Senin', 'Selasa', 'Rabu',
+        'Kamis', 'Jumat', 'Sabtu', 'Minggu',
+    ];
+
+    /**
+     * Scope untuk jadwal aktif
+     */
+    public function scopeActive(Builder $query): Builder
     {
-        $this->attributes['hari'] = ucfirst(strtolower($value));
+        return $query->where('is_active', true);
     }
 
-    // Accessor untuk menampilkan waktu dalam format "HH:MM"
-    public function getWaktuAttribute()
+    /**
+     * Scope untuk urutan hari
+     */
+    public function scopeOrderByDay(Builder $query): Builder
     {
-        return sprintf('%02d:%02d', $this->jam, $this->menit);
+        return $query->orderByRaw(
+            "FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')"
+        );
+    }
+
+    /**
+     * Akses waktu dalam format H:i:s
+     */
+    public function getFormattedTimeAttribute(): string
+    {
+        return date('H:i:s', strtotime($this->waktu));
     }
 }

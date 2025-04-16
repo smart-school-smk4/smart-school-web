@@ -108,11 +108,11 @@
                     </svg>
                 </button>
                 <ul class="dropdown hidden mt-2 ml-5 space-y-2">
-                    <li><a href="{{ route('admin.bel') }}"
-                            class="block p-2 rounded-lg {{ request()->is('admin/presensi/siswa') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Bel</a>
+                    <li><a href="{{ route('bel.index') }}"
+                            class="block p-2 rounded-lg {{ request()->is('admin/bel') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Bel</a>
                     </li>
-                    <li><a href="{{ route('admin.bel.pengumuman') }}"
-                            class="block p-2 rounded-lg {{ request()->is('admin/presensi/guru') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Pengumuman</a>
+                    <li><a href="{{ route('admin.pengumuman') }}"
+                            class="block p-2 rounded-lg {{ request()->is('admin/bel/pengumuman') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Pengumuman</a>
                     </li>
                 </ul>
             </li>
