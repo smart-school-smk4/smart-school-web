@@ -52,69 +52,54 @@
         </div>
     </div>
 
-    <!-- Status Cards Grid - Diubah untuk handle MQTT disconnect -->
+    <!-- Status Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <!-- MQTT Status Card -->
-        <div id="mqttCard" class="bg-white rounded-xl shadow-md p-5 border-l-4 {{ $mqttStatus === 'Connected' ? 'border-green-500' : 'border-red-500' }}">
+        <div id="mqttCard" class="bg-white rounded-xl shadow-md p-5 border-l-4 border-green-500">
             <div class="flex items-center">
-                <div id="mqttIconBg" class="p-3 rounded-full {{ $mqttStatus === 'Connected' ? 'bg-green-100' : 'bg-red-100' }}">
-                    <svg id="mqttIconSvg" class="w-6 h-6 {{ $mqttStatus === 'Connected' ? 'text-green-600' : 'text-red-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div id="mqttIconBg" class="p-3 rounded-full bg-green-100">
+                    <svg id="mqttIconSvg" class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
                     </svg>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">Koneksi MQTT</h3>
-                    <p id="mqttStatusText" class="text-lg font-semibold {{ $mqttStatus === 'Connected' ? 'text-green-600' : 'text-red-600' }}">
-                        {{ $mqttStatus === 'Connected' ? 'Tersambung' : 'Terputus' }}
-                    </p>
-                    @unless($mqttStatus === 'Connected')
-                    <p class="text-xs text-yellow-600 mt-1">Fitur real-time terbatas</p>
-                    @endunless
+                    <p id="mqttStatusText" class="text-lg font-semibold text-green-600">Tersambung</p>
                 </div>
             </div>
         </div>
 
-        <!-- RTC Status Card - Diubah untuk hanya show terhubung/terputus -->
-        <div class="bg-white rounded-xl shadow-md p-5 border-l-4 {{ $status->rtc ? 'border-green-500' : 'border-red-500' }}" id="rtcCard">
+        <!-- RTC Status Card -->
+        <div id="rtcCard" class="bg-white rounded-xl shadow-md p-5 border-l-4 border-green-500">
             <div class="flex items-center">
-                <div class="p-3 rounded-full {{ $status->rtc ? 'bg-green-100' : 'bg-red-100' }}" id="rtcIcon">
-                    <svg class="w-6 h-6 {{ $status->rtc ? 'text-green-600' : 'text-red-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div id="rtcIcon" class="p-3 rounded-full bg-green-100">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">Modul RTC</h3>
-                    <p class="text-lg font-semibold {{ $status->rtc ? 'text-green-600' : 'text-red-600' }}" id="rtcStatusText">
-                        {{ $status->rtc ? 'Tersambung' : 'Terputus' }}
-                    </p>
-                    @if($status->rtc_time)
-                        <p class="text-xs text-gray-500 mt-1" id="rtcTimeText">
-                            {{ $status->rtc_time }}
-                        </p>
-                    @endif
+                    <p id="rtcStatusText" class="text-lg font-semibold text-green-600">Tersambung</p>
+                    <p id="rtcTimeText" class="text-xs text-gray-500 mt-1">2023-10-01T12:34:56</p>
                 </div>
             </div>
         </div>
 
-        <!-- DFPlayer Status Card - Diubah untuk hanya show terhubung/terputus -->
-        <div class="bg-white rounded-xl shadow-md p-5 border-l-4 {{ $status->dfplayer ? 'border-green-500' : 'border-red-500' }}" id="dfplayerCard">
+        <!-- DFPlayer Status Card -->
+        <div id="dfplayerCard" class="bg-white rounded-xl shadow-md p-5 border-l-4 border-green-500">
             <div class="flex items-center">
-                <div class="p-3 rounded-full {{ $status->dfplayer ? 'bg-green-100' : 'bg-red-100' }}" id="dfplayerIcon">
-                    <svg class="w-6 h-6 {{ $status->dfplayer ? 'text-green-600' : 'text-red-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div id="dfplayerIcon" class="p-3 rounded-full bg-green-100">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                     </svg>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-sm font-medium text-gray-500">DFPlayer</h3>
-                    <p class="text-lg font-semibold {{ $status->dfplayer ? 'text-green-600' : 'text-red-600' }}" id="dfplayerStatusText">
-                        {{ $status->dfplayer ? 'Tersambung' : 'Terputus' }}
-                    </p>
-                    @unless($status->dfplayer)
-                        <p class="text-xs text-red-500 mt-1">Periksa koneksi hardware</p>
-                    @endunless
+                    <p id="dfplayerStatusText" class="text-lg font-semibold text-green-600">Tersambung</p>
                 </div>
             </div>
         </div>
+    
 
         <!-- Next Bell Countdown - Tetap bekerja tanpa MQTT -->
         <div class="bg-white rounded-xl shadow-md p-5 border-l-4 border-blue-500">

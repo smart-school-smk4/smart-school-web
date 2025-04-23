@@ -145,7 +145,7 @@ class MqttService
             $this->storeMessageInQueue($topic, $message, $qos, $retain);
             return false;
         }
-    
+
         try {
             $this->client->publish($topic, $message, $qos, $retain);
             $this->lastActivityTime = time();
@@ -154,7 +154,7 @@ class MqttService
         } catch (\Exception $e) {
             $this->handleDisconnection();
             Log::error("MQTT Publish failed to {$topic}: " . $e->getMessage());
-    
+
             // Store message in queue if failed
             $this->storeMessageInQueue($topic, $message, $qos, $retain);
             return false;
@@ -170,7 +170,7 @@ class MqttService
             'qos' => $qos,
             'retain' => $retain,
             'attempts' => 0,
-            'timestamp' => time()
+            'timestamp' => time(),
         ];
         Cache::put('mqtt_message_queue', $queue, 3600);
     }
@@ -257,18 +257,19 @@ class MqttService
     {
         try {
             $config = config('mqtt.connections.bel_sekolah');
-
+    
             $mqtt = new MqttClient(
                 $config['host'],
                 $config['port'],
                 'quick-publish-' . uniqid()
             );
-
-            $mqtt->connect(null, true, [
-                'connect_timeout' => 2,
-                'socket_timeout' => 2,
-            ]);
-
+    
+            $connectionSettings = (new ConnectionSettings)
+                ->setConnectTimeout($config['connection_settings']['connect_timeout'] ?? 2)
+                ->setUseTls(false);
+    
+            $mqtt->connect($connectionSettings, true);
+    
             $mqtt->publish($topic, $message, $qos, $retain);
             $mqtt->disconnect();
             return true;
@@ -277,6 +278,7 @@ class MqttService
             return false;
         }
     }
+    
 
     public function __destruct()
     {
@@ -284,5 +286,32 @@ class MqttService
         if ($this->isConnected) {
             $this->disconnect();
         }
+    }
+    
+    public function sendAnnouncement($payload)
+    {
+        $topic = 'bel/sekolah/pengumuman';
+        
+        // Publish utama
+        $this->publish($topic, json_encode($payload), 1, false);
+        
+        // Jika TTS, kirim perintah stop setelah delay
+        if ($payload['type'] === 'tts' && $payload['auto_stop'] ?? false) {
+            $duration = $this->estimateTtsDuration($payload['content']);
+            sleep($duration + 2); // Tambah buffer 2 detik
+            
+            $stopPayload = [
+                'type' => 'stop_tts',
+                'target_rooms' => $payload['target_rooms'],
+                'timestamp' => now()->toDateTimeString()
+            ];
+            $this->publish($topic, json_encode($stopPayload), 1, false);
+        }
+    }
+
+    private function estimateTtsDuration($text)
+    {
+        // Estimasi 0.3 detik per karakter (termasuk jeda)
+        return min(300, ceil(strlen($text) * 0.3)); // Max 5 menit
     }
 }

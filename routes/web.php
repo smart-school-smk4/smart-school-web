@@ -9,9 +9,10 @@ use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\MqttController;
 
 // Public routes
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -25,6 +26,7 @@ Route::controller(LoginController::class)->group(function () {
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     
     // Admin prefix routes
@@ -57,9 +59,8 @@ Route::middleware(['auth'])->group(function () {
         // Laporan
         Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
 
-        // Bell System Routes
+        // Bell System
         Route::prefix('bel')->controller(BelController::class)->group(function () {
-            // CRUD Routes
             Route::get('/', 'index')->name('bel.index');
             Route::get('/create', 'create')->name('bel.create');
             Route::post('/', 'store')->name('bel.store');
@@ -69,10 +70,13 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/', 'deleteAll')->name('bel.delete-all');
         });
 
-        // Pengumuman
-        Route::controller(PengumumanController::class)->group(function () {
-            Route::get('/pengumuman', 'index')->name('admin.pengumuman');
-            Route::post('/pengumuman/send-tts', 'sendTTS')->name('admin.pengumuman.send-tts');
+        // Announcement System
+        Route::prefix('pengumuman')->group(function () {
+            Route::get('/', [AnnouncementController::class, 'index'])->name('announcements.index');
+            Route::post('/send', [AnnouncementController::class, 'send'])->name('announcements.send');
+            Route::post('/stop-manual', [AnnouncementController::class, 'stopManual'])->name('announcements.stopManual');
+            Route::get('/active', [AnnouncementController::class, 'checkActive'])->name('announcements.active');
+            Route::get('/mqtt-status', [AnnouncementController::class, 'mqttStatus'])->name('announcements.mqttStatus');
         });
     });
 });

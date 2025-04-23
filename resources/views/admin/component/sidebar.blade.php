@@ -111,8 +111,8 @@
                     <li><a href="{{ route('bel.index') }}"
                             class="block p-2 rounded-lg {{ request()->is('admin/bel') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Bel</a>
                     </li>
-                    <li><a href="{{ route('admin.pengumuman') }}"
-                            class="block p-2 rounded-lg {{ request()->is('admin/bel/pengumuman') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Pengumuman</a>
+                    <li><a href="{{ route('announcements.index') }}"
+                            class="block p-2 rounded-lg {{ request()->is('admin/pengumuman') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Pengumuman</a>
                     </li>
                 </ul>
             </li>

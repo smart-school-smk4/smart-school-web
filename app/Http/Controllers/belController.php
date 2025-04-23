@@ -48,13 +48,11 @@ class BelController extends Controller
     {
         try {
             $data = json_decode($message, true);
-
             // Validasi payload
             if (!is_array($data)) {
                 Log::error('Invalid status data format');
                 return;
             }
-
             // Pastikan semua kunci penting ada
             $requiredKeys = ['rtc', 'dfplayer', 'rtc_time', 'last_communication', 'last_sync'];
             foreach ($requiredKeys as $key) {
@@ -63,7 +61,6 @@ class BelController extends Controller
                     return;
                 }
             }
-
             // Simpan data ke database
             Status::updateOrCreate(
                 ['id' => 1],
@@ -72,8 +69,7 @@ class BelController extends Controller
                     'dfplayer' => $data['dfplayer'] ?? false,
                     'rtc_time' => $data['rtc_time'] ?? null,
                     'last_communication' => Carbon::createFromTimestamp($data['last_communication'] ?? 0),
-                    'last_sync' => Carbon::createFromTimestamp($data['last_sync'] ?? 0),
-                    'status' => $data['status'] ?? 'unknown' // Default value jika kunci tidak ada
+                    'last_sync' => Carbon::createFromTimestamp($data['last_sync'] ?? 0)
                 ]
             );
         } catch (\Exception $e) {
@@ -339,10 +335,7 @@ class BelController extends Controller
             'repeat' => 'sometimes|integer|min:1|max:10',
             'volume' => 'sometimes|integer|min:0|max:30'
         ]);
-    
         try {
-            Log::info('Ring Bell Request Received', ['file_number' => $validated['file_number']]); // Log awal ketika request diterima
-    
             $message = json_encode([
                 'action' => 'ring',
                 'timestamp' => Carbon::now()->toDateTimeString(),
@@ -350,15 +343,11 @@ class BelController extends Controller
                 'repeat' => $validated['repeat'] ?? 1,
                 'volume' => $validated['volume'] ?? 15
             ]);
-    
             $this->mqttService->publish(
                 $this->mqttConfig['topics']['commands']['ring'],
                 $message,
                 1
             );
-    
-            Log::info('Ring Bell Command Published Successfully', ['file_number' => $validated['file_number']]); // Log setelah publish MQTT berhasil
-    
             return response()->json([
                 'success' => true,
                 'message' => 'Perintah bel berhasil dikirim',
@@ -368,7 +357,6 @@ class BelController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            Log::error('Error Ringing Bell: ' . $e->getMessage(), ['file_number' => $validated['file_number']]); // Log jika terjadi error
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal mengirim perintah bel: ' . $e->getMessage()
