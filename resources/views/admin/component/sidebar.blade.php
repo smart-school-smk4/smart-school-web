@@ -7,7 +7,7 @@
         </div>
         <ul class="mt-5">
             <li class="mb-2">
-                <a href="{{ route('admin.dashboard') }}"
+                <a href="{{ route('admin.dashboard.menu') }}"
                     class="flex items-center p-2 rounded-lg {{ request()->is('admin/dashboard') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +48,9 @@
                     </li>
                     <li><a href="{{ route('admin.jurusan') }}"
                             class="block p-2 rounded-lg {{ request()->is('admin/jurusan') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Jurusan</a>
+                    </li>
+                    <li><a href="{{ route('admin.ruangan') }}"
+                            class="block p-2 rounded-lg {{ request()->is('admin/ruangan') ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 text-gray-800' }}">Ruangan</a>
                     </li>
                 </ul>
             </li>
