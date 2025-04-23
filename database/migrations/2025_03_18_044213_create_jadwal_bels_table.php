@@ -3,25 +3,30 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\JadwalBel; // Tambahkan di bagian atas file
 
-return new class extends Migration {
+class CreateJadwalBelsTable extends Migration
+{
     public function up()
     {
         Schema::create('jadwal_bels', function (Blueprint $table) {
             $table->id();
-            $table->string('hari', 10); // Menyimpan hari (Senin, Selasa, dll.), dibatasi 10 karakter
-            $table->time('waktu'); // Menyimpan waktu dalam format HH:MM:SS
-            $table->unsignedInteger('mp3_file'); // Menyimpan nomor file MP3 (0001, 0002, dll.), tidak boleh negatif
+            $table->enum('hari', array_values(JadwalBel::DAYS)); // Refer ke konstanta model
+            $table->time('waktu');
+            $table->char('file_number', 4);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
-            $table->softDeletes(); // Menambahkan kolom deleted_at untuk SoftDeletes
-
-            // Pastikan tidak ada jadwal duplikat untuk hari & waktu yang sama
-            $table->unique(['hari', 'waktu']);
+            
+            $table->unique(['hari', 'file_number']);
+            
+            // Tambahkan index untuk pencarian
+            $table->index('hari');
+            $table->index('waktu');
+            $table->index('is_active');
         });
     }
-
     public function down()
     {
         Schema::dropIfExists('jadwal_bels');
     }
-};
+}
